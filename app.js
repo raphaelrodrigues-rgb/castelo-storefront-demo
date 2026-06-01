@@ -74,13 +74,11 @@
         <div class="product-price">${p.listPrice && p.listPrice>p.price ? `<span class="list">${fmt(p.listPrice)}</span>`:''}${fmt(p.price)}</div>
         ${unavailable
           ? `<button class="add-btn" disabled>Indisponível</button>`
-          : qty===0
-            ? `<button class="add-btn" data-act="add">Adicionar</button>`
-            : `<div class="qty">
-                 <button class="qty-btn" data-act="dec" aria-label="Remover">−</button>
-                 <span class="qty-val">${qty}</span>
-                 <button class="qty-btn" data-act="inc" aria-label="Adicionar">+</button>
-               </div>`
+          : `<div class="qty">
+               <button class="qty-btn" data-act="dec" aria-label="Remover" ${qty===0?'disabled':''}>−</button>
+               <span class="qty-val">${qty}</span>
+               <button class="qty-btn" data-act="inc" aria-label="Adicionar">+</button>
+             </div>`
         }
       </article>`;
   }
