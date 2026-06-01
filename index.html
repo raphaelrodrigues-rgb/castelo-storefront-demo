@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#5b1f6e" />
+  <title>Castelo Alimentos · Catálogo</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%235b1f6e'/%3E%3Ctext x='50%25' y='55%25' font-size='20' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='800'%3EC%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============== TELA 1: CATÁLOGO ============== -->
+  <section id="screen-catalog" class="screen">
+    <header class="topbar">
+      <div class="topbar-row">
+        <div class="brand">
+          <span class="brand-mark">C</span>
+          <span class="brand-name">Castelo</span>
+        </div>
+        <button class="icon-btn" id="open-cart-btn" aria-label="Abrir carrinho">
+          🛒<span class="cart-badge" id="cart-badge" hidden>0</span>
+        </button>
+      </div>
+      <div class="search-row">
+        <input id="search-input" type="search" placeholder="Buscar produtos…" autocomplete="off"/>
+      </div>
+      <nav class="cats" id="cats-nav" aria-label="Categorias"></nav>
+    </header>
+
+    <main class="content">
+      <section class="rec-section" id="rec-section">
+        <h2 class="section-title">🔥 Recomendados</h2>
+        <div class="rec-scroller" id="rec-scroller"></div>
+      </section>
+
+      <section class="grid-section">
+        <h2 class="section-title" id="grid-title">Todos os produtos</h2>
+        <div class="product-grid" id="product-grid"></div>
+        <p class="empty" id="empty-state" hidden>Nenhum produto encontrado.</p>
+      </section>
+    </main>
+
+    <button class="cart-fab" id="cart-fab" hidden>
+      <span>VER CARRINHO</span>
+      <span class="cart-fab-total" id="cart-fab-total">R$ 0,00</span>
+    </button>
+  </section>
+
+  <!-- ============== TELA 2: CARRINHO ============== -->
+  <section id="screen-cart" class="screen" hidden>
+    <header class="topbar">
+      <div class="topbar-row">
+        <button class="icon-btn back-btn" id="back-to-catalog" aria-label="Voltar">←</button>
+        <h1 class="cart-title">Seu carrinho</h1>
+        <span style="width:40px"></span>
+      </div>
+    </header>
+
+    <main class="content">
+      <ul class="cart-list" id="cart-list"></ul>
+      <p class="empty" id="cart-empty" hidden>Seu carrinho está vazio.<br/><button class="link-btn" id="back-shop">← Voltar ao catálogo</button></p>
+
+      <section class="upsell-section" id="upsell-section" hidden>
+        <h2 class="section-title">✨ Complete seu pedido</h2>
+        <p class="upsell-sub">Produtos que combinam com o que você está levando</p>
+        <div class="rec-scroller" id="upsell-scroller"></div>
+      </section>
+
+      <section class="totals" id="totals" hidden>
+        <div class="totals-row"><span>Subtotal</span><span id="totals-subtotal">R$ 0,00</span></div>
+        <div class="totals-row"><span>Itens</span><span id="totals-count">0</span></div>
+        <div class="totals-row total"><span>Total</span><span id="totals-grand">R$ 0,00</span></div>
+      </section>
+    </main>
+
+    <button class="checkout-fab" id="checkout-fab" hidden>
+      FINALIZAR PEDIDO →
+    </button>
+  </section>
+
+  <!-- ============== TELA 3: CONFIRMAÇÃO ============== -->
+  <section id="screen-confirm" class="screen" hidden>
+    <header class="topbar">
+      <div class="topbar-row">
+        <div class="brand"><span class="brand-mark">C</span><span class="brand-name">Castelo</span></div>
+        <span style="width:40px"></span>
+      </div>
+    </header>
+    <main class="content confirm-content">
+      <div class="confirm-card">
+        <div class="confirm-check">✅</div>
+        <h1>Pedido pronto!</h1>
+        <p class="confirm-code">Código: <strong id="confirm-code-text">PEDIDO#----</strong></p>
+        <p class="confirm-help">Clique no botão abaixo para enviar seu pedido por WhatsApp. Nosso atendente vai confirmar e combinar pagamento e entrega.</p>
+        <a id="wa-link" class="wa-btn" href="#" target="_blank" rel="noopener">
+          <span>📱</span> Enviar pedido pelo WhatsApp
+        </a>
+        <button class="link-btn" id="back-to-cart">← Revisar carrinho</button>
+      </div>
+    </main>
+  </section>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
