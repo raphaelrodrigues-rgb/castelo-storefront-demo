@@ -15,6 +15,7 @@
   const URL_PARAMS = new URLSearchParams(location.search);
   const BOT_NUMBER = (URL_PARAMS.get('wa') || BOT_NUMBER_DEFAULT).replace(/\D/g,'');
   const USER_REF   = URL_PARAMS.get('u') || ''; // referência opcional do usuário (vindo do bot)
+  const PRELOAD_CART = URL_PARAMS.get('cart') || ''; // formato: ID1xQTY1,ID2xQTY2,...
 
   const PRODUCTS = window.CASTELO_PRODUCTS || [];
   const CATS = [...new Set(PRODUCTS.map(p=>p.category))]; // mantém ordem do JSON
@@ -271,11 +272,26 @@
       $('#product-grid').innerHTML = '<p class="empty">Catálogo vazio.</p>';
       return;
     }
+    // Pre-load do carrinho via ?cart=ID1xQTY1,ID2xQTY2,...
+    if(PRELOAD_CART){
+      for(const pair of PRELOAD_CART.split(',')){
+        const [id, qty] = pair.split('x');
+        const n = parseInt(qty||'1', 10);
+        if(id && byId(id) && byId(id).available && n>0) cart.set(id, n);
+      }
+    }
+
     renderCats();
     renderQuickCats();
     renderRecommended();
     renderGrid();
     renderCartFab();
+
+    // Se carrinho veio pre-carregado, ja abre a tela do carrinho
+    if(cartCount()>0 && PRELOAD_CART){
+      renderCart();
+      showScreen('cart');
+    }
 
     // Hero CTA: rola pra recomendados
     $('#hero-cta')?.addEventListener('click', ()=>{
