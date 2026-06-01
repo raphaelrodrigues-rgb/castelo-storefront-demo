@@ -251,9 +251,18 @@
     const code = shortCode();
     const text = buildOrderText(code);
     const url = `https://wa.me/${BOT_NUMBER}?text=${encodeURIComponent(text)}`;
-    $('#confirm-code-text').textContent = `PEDIDO#${code}`;
-    $('#wa-link').href = url;
-    showScreen('confirm');
+    // Overlay rapido + navega direto para o WhatsApp (sem tela intermediaria)
+    showOpeningOverlay();
+    setTimeout(()=>{ window.location.href = url; }, 250);
+  }
+
+  function showOpeningOverlay(){
+    let ov = document.getElementById('wa-opening-overlay');
+    if(ov) return;
+    ov = document.createElement('div');
+    ov.id = 'wa-opening-overlay';
+    ov.innerHTML = '<div class="wa-opening-card"><div class="wa-spinner"></div><p>Abrindo WhatsApp…</p></div>';
+    document.body.appendChild(ov);
   }
 
   // ---------- Inicialização ----------
