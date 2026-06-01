@@ -11,7 +11,7 @@
   'use strict';
 
   // ---------- Config ----------
-  const BOT_NUMBER_DEFAULT = '5511999999999'; // placeholder — sobrescrito por ?wa= ou pelo CTA do builder
+  const BOT_NUMBER_DEFAULT = '551149336819'; // Castela (wa-se1602-yalo-br-2). Pode ser sobrescrito via ?wa=...
   const URL_PARAMS = new URLSearchParams(location.search);
   const BOT_NUMBER = (URL_PARAMS.get('wa') || BOT_NUMBER_DEFAULT).replace(/\D/g,'');
   const USER_REF   = URL_PARAMS.get('u') || ''; // referência opcional do usuário (vindo do bot)
@@ -101,6 +101,29 @@
     // Recomendados só aparecem em "Todos" sem busca
     $('#rec-section').hidden = !(activeCat==='Todos' && !searchQ);
     wireProductButtons('#product-grid');
+  }
+
+  // ---------- Render: quick-cats (chips circulares com foto de produto representativo) ----------
+  function renderQuickCats(){
+    const wrap = $('#quick-cats'); if(!wrap) return;
+    // Pega 1 produto disponível por categoria, na ordem CATS
+    const items = CATS.map(cat=>{
+      const p = PRODUCTS.find(x=>x.category===cat && x.available && x.image);
+      return {cat, img: p?.image};
+    });
+    wrap.innerHTML = items.map(it => `
+      <div class="quick-cat" data-cat="${escapeAttr(it.cat)}">
+        <div class="quick-cat-img">${it.img?`<img src="${it.img}" alt="" loading="lazy" onerror="this.parentNode.textContent='🫙'"/>`:'🫙'}</div>
+        <span class="quick-cat-name">${escapeHtml(it.cat)}</span>
+      </div>`).join('');
+    $$('#quick-cats .quick-cat').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        activeCat = el.dataset.cat;
+        searchQ = ''; $('#search-input').value='';
+        renderCats(); renderGrid();
+        $('#grid-title')?.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
   }
 
   // ---------- Render: recomendados ----------
@@ -242,9 +265,15 @@
       return;
     }
     renderCats();
+    renderQuickCats();
     renderRecommended();
     renderGrid();
     renderCartFab();
+
+    // Hero CTA: rola pra recomendados
+    $('#hero-cta')?.addEventListener('click', ()=>{
+      $('#rec-section')?.scrollIntoView({behavior:'smooth', block:'start'});
+    });
 
     $('#search-input').addEventListener('input', e=>{
       searchQ = e.target.value.trim();
